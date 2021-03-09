@@ -127,7 +127,7 @@ Serilog日志库也并不是非常易于使用，而且可能也缺少一些必�
 | LevelFile | 以日志级别缩写为日志文件名称 |
 | DayFolderAndLevelFile | 以每天日期为目录，日志级别缩写为日志名称 |
 
-由于LogPathTemplate未字符串配置，你也可以配置其他的路径模板。
+由于LogPathTemplate为字符串配置，你也可以配置其他的路径模板。
 
 关于日志的定时清理，可以通过MaxLogDays配置来指定日志保留的天数，如果设置为0，表示不清理，这是默认配置。
 
