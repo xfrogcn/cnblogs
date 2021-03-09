@@ -174,3 +174,6 @@ Serilog日志库也并不是非常易于使用，而且可能也缺少一些必�
 ## 禁用Serilog
 
 如果你觉得上述所有功能都不太适合你的场景，但是你又需要使用扩展库的其他功能，那怎么办呢？ 非常简单，你只需要将EnableSerilog设置为false，即可完全禁用上述日志功能。
+
+
+有关日志的详细配置，可参考[文档](https://github.com/xfrogcn/Xfrogcn.AspNetCore.Extensions/blob/master/doc/Logging.md)
