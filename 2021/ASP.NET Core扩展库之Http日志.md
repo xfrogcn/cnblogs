@@ -61,3 +61,5 @@
 ## 示例
 
 详细示例请参考[GitHub](https://github.com/xfrogcn/Xfrogcn.AspNetCore.Extensions/tree/master/examples/Http/RequestLog)
+
+Xfrogcn.AspNetCore.Extensions地址：[GitHub](https://github.com/xfrogcn/Xfrogcn.AspNetCore.Extensions) [Gitee](https://gitee.com/WuYeCai/Xfrogcn.AspNetCore.Extensions)
