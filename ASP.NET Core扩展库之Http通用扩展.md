@@ -1,6 +1,6 @@
 # ASP.NET Core扩展库之Http通用扩展
 
-本文将介绍Xfrogcn.AspNetCore.Extensions扩展库对于Http相关的其他功能扩展，这些功能旨在处理一些常见需求, 包括请求缓冲以及针对HttpClient与HttpRequestMessage、HttpResponseMessage的扩展方法。
+本文将介绍Xfrogcn.AspNetCore.Extensions扩展库对于Http相关的其他功能扩展，这些功能旨在处理一些常见需求, 包括请求缓冲、请求头传递、请求头日志范围、针对HttpClient与HttpRequestMessage、HttpResponseMessage的扩展方法。
 
 ## 开启服务端请求缓冲
 
@@ -50,6 +50,46 @@ System.NotSupportedException: Specified method is not supported.
     {
         ....
     }
+```
+
+## 请求头传递
+
+微服务架构下，通常我们使用请求头来实现请求的链路跟踪以及日志与请求的关联，例如，通过x-request-id，在日志系统中可以直接查看某一个请求在所有服务中的相关日志。
+
+扩展库通过拦截HttpClient请求管道，可实现对指定请求头的自动传递。默认配置下，扩展库会自动传递以"x-"开始的请求头，如果你需要传递其他的请求头，可通过配置中的TrackingHeaders来添加。
+
+```c#
+    IServiceCollection services = new ServiceCollection()
+        .AddExtensions(null, config =>
+        {
+            // 自动传递以my-为前缀的请求头
+            config.TrackingHeaders.Add("my-*");
+        });
+```
+
+## 请求头日志的记录
+
+.NET Core日志框架中，实现了日志范围的概念，通过日志范围，可以让日志系统记录当前上下文的信息，例如，ASP.NET Core MVC中，日志范围包含ActionContext相关信息，故可以在一个请求的所有日志中都可自动记录Action的相关信息。
+
+扩展库可以将配置的请求头加入请求的日志范围，例如，默认配置下，扩展库会将x-request-id加入到请求的日志范围，所以在单一请求中的所有日志，都可自动携带x-request-id信息，以此实现跨服务的日志关联。要包含其他的请求头，可以通过配置中的HttpHeaders来设置：
+
+```c#
+    IServiceCollection services = new ServiceCollection()
+        .AddExtensions(null, config =>
+        {
+            // 将my-id请求头包含到日志范围
+            config.HttpHeaders.Add("my-id");
+        });
+```
+
+**注意**: 默认的控制台日志、文件日志不会保存日志范围的相关信息，你可以使用json格式的控制台日志或文件日志，在此格式下将保存日志范围中的数据。
+
+```C#
+    IServiceCollection services = new ServiceCollection()
+        .AddExtensions(null, config =>
+        {
+            config.ConsoleJsonLog = true;
+        });
 ```
 
 ## Http消息上的扩展方法
